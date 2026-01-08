@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levindra | Luxury Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <nav>
+        <div class="logo" onclick="window.location.href='index.html'">LEVINDRA</div>
+        <ul id="nav-links">
+            <li><a href="#" onclick="showSub('Shoes')">Shoes</a></li>
+            <li><a href="#" onclick="showSub('Books')">Books</a></li>
+            <li><a href="#" onclick="showSub('Bags')">Bags</a></li>
+            <li><a href="#" onclick="showSub('Bottles')">Bottles</a></li>
+        </ul>
+        <div id="auth-ui"></div>
+    </nav>
+
+    <div id="sub-nav-bar" class="sub-nav"></div>
+
+    <div id="user-profile-section" style="display:none;" class="profile-card">
+        <h2 class="purple-text">My Account</h2>
+        <div class="profile-info">
+            <p><b>Name:</b> <span id="u-name"></span></p>
+            <p><b>Email:</b> <span id="u-email"></span></p>
+            <p><b>Member Since:</b> <span id="u-date"></span></p>
+        </div>
+        <button onclick="closeProfile()" class="btn-secondary">Close</button>
+    </div>
+
+    <div class="cart-bar">
+        <span>🛒 <span id="cart-count">0</span> Items | Total: <b>Rs. <span id="total-price">0</span></b></span>
+        <div class="cart-buttons">
+            <button onclick="window.location.href='cart.html'" class="view-cart-btn-premium">View Full Cart</button>
+            <button onclick="showCheckout()" class="checkout-btn-premium">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <main id="product-display" class="product-grid">
+        </main>
+
+    <div id="checkout-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 class="purple-text">Complete Your Order</h2>
+            
+            <div class="payment-selection">
+                <label>Choose Payment Method:</label>
+                <select id="paymentMethod" onchange="togglePaymentFields()">
+                    <option value="cod">Cash on Delivery (COD)</option>
+                    <option value="card">Card Payment (Visa/Master)</option>
+                </select>
+            </div>
+
+            <div id="cod-fields" class="details-box">
+                <h4>Shipping Details</h4>
+                <input type="text" id="shipName" placeholder="Full Name">
+                <input type="text" id="shipAddress" placeholder="Delivery Address">
+                <input type="tel" id="shipPhone" placeholder="Phone Number">
+            </div>
+
+            <div id="card-fields" class="details-box" style="display:none;">
+                <h4>Card Information</h4>
+                <div class="card-logos">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" height="15" alt="Visa">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" height="15" alt="Mastercard">
+                </div>
+                <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+                <div class="row">
+                    <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
+                    <input type="password" id="cvv" placeholder="CVV" maxlength="3">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="confirmOrder()" class="btn-primary">Confirm & Pay</button>
+                <button onclick="closeCheckout()" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("IDmKdyQasLxiJ9S6J"); 
+       })();
+    </script>
+
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile | Levindra</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="soft-bg">
+    <nav>
+        <div class="logo">LEVINDRA</div>
+        <ul><li><a href="index.html">Back to Store</a></li></ul>
+    </nav>
+
+    <div class="account-wide-container">
+        <div class="profile-sidebar">
+    <div class="profile-img-container">
+        <img src="default-avatar.png" id="profile-display" class="user-avatar-img">
+        <label for="img-upload" class="edit-icon">📷</label>
+        <input type="file" id="img-upload" style="display:none" accept="image/*" onchange="uploadImage(event)">
+    </div>
+    <h2 id="acc-name">Loading...</h2>
+    <div class="user-details-list">
+        <p><b>Email:</b> <span id="acc-email"></span></p>
+        <p><b>Mobile:</b> <span id="acc-phone"></span></p>
+        <p><b>Address:</b> <span id="acc-address"></span></p>
+    </div>
+    <button onclick="logout()" class="btn-secondary" style="width: 100%;">Logout</button>
+</div>
+
+        <div class="order-history-section">
+            <h3 class="purple-text">Recent Orders</h3>
+            <div id="order-list">
+                <p class="empty-msg">No orders placed yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if(!user) { window.location.href = "auth.html"; return; }
+
+            // විස්තර පෙන්වීම
+            document.getElementById('acc-name').innerText = user.name;
+            document.getElementById('acc-email').innerText = user.email;
+            document.getElementById('acc-phone').innerText = user.phone || "No Number Provided";
+            document.getElementById('acc-address').innerText = user.address || "No Address Provided";
+
+            // Order History එක පෙන්වීම
+            const orders = JSON.parse(localStorage.getItem(`orders_${user.email}`)) || [];
+            const orderList = document.getElementById('order-list');
+
+            if(orders.length > 0) {
+                orderList.innerHTML = orders.map(order => `
+                    <div class="order-card">
+                        <div class="order-id">Order ID: #${order.id}</div>
+                        <div class="order-date">${order.date}</div>
+                        <div class="order-items">${order.items.map(i => i.name).join(', ')}</div>
+                        <div class="order-total">Total: Rs. ${order.total}</div>
+                        <div class="order-status">${order.status}</div>
+                    </div>
+                `).join('');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = "index.html";
+        }
+        // පිටුව Load වන විට පින්තූරය පෙන්වීම
+document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if(user && user.profilePic) {
+        document.getElementById('profile-display').src = user.profilePic;
+    }
+});
+
+function uploadImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function() {
+        const base64String = reader.result;
+        
+        // UI එක update කිරීම
+        document.getElementById('profile-display').src = base64String;
+
+        // LocalStorage එකේ Save කිරීම
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        user.profilePic = base64String;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // ප්‍රධාන Database එකත් update කිරීම
+        localStorage.setItem(user.email, JSON.stringify(user));
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+    </script>
+</body>
+</html>

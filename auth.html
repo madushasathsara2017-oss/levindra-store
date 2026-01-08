@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Levindra</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <div class="auth-bg-overlay"></div>
+    <div class="auth-container">
+        
+        <div id="login-form" class="auth-card">
+            <h1 class="logo-text">LEVINDRA</h1>
+            <h3>Welcome Back!</h3>
+            
+            <input type="email" id="logEmail" placeholder="Email Address">
+
+            <div class="password-wrapper">
+                <input type="password" id="logPass" placeholder="Password" 
+                       onfocus="lookAtPassword(true)" 
+                       onblur="lookAtPassword(false)">
+                <span id="toggleBtn" onclick="togglePasswordVisibility()">👁️</span>
+            </div>
+
+            <button onclick="login()" class="btn-primary">Login</button>
+            <p>Don't have an account? <a href="#" onclick="toggleAuth()">Register Here</a></p>
+        </div>
+
+        <div class="character-container">
+            <div class="character left-char">
+                <div class="body"></div>
+                <div class="head">
+                    <div class="eye left-eye"><div class="pupil"></div></div>
+                    <div class="eye right-eye"><div class="pupil"></div></div>
+                    <div class="mouth"></div>
+                </div>
+            </div>
+            <div class="character right-char">
+                <div class="body"></div>
+                <div class="head">
+                    <div class="eye left-eye"><div class="pupil"></div></div>
+                    <div class="eye right-eye"><div class="pupil"></div></div>
+                    <div class="mouth"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="register-form" class="auth-card" style="display:none;">
+            <h1 class="logo-text">LEVINDRA</h1>
+            <h3>Join Us</h3>
+            <input type="text" id="regName" placeholder="Full Name">
+            <input type="email" id="regEmail" placeholder="Email Address">
+            <input type="tel" id="regPhone" placeholder="Mobile Number (07XXXXXXXX)">
+            <input type="text" id="regAddress" placeholder="Permanent Address">
+            <input type="password" id="regPass" placeholder="Create Password">
+            <button onclick="register()" class="btn-primary">Register Account</button>
+            <p>Already have an account? <a href="#" onclick="toggleAuth()">Login Here</a></p>
+        </div>
+
+    </div>
+    <script src="auth.js"></script>
+</body>
+</html>

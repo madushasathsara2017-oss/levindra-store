@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart | Levindra</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="cart-page-bg">
+    <nav>
+        <div class="logo">LEVINDRA</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+        </ul>
+    </nav>
+
+    <div class="cart-container">
+        <h2 class="purple-text">Shopping Cart</h2>
+        <div id="cart-items-list">
+            </div>
+        
+        <div class="cart-summary">
+            <h3>Total: Rs. <span id="cart-total-price">0</span></h3>
+            <button onclick="window.location.href='index.html#checkout'" class="checkout-btn-premium">Checkout Now</button>
+            <br><br>
+            <a href="index.html" style="color: var(--main-purple); text-decoration: none;">← Continue Shopping</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Page eka load weddi cart eka pennanna
+        document.addEventListener('DOMContentLoaded', displayCart);
+
+        function displayCart() {
+            const cartItemsContainer = document.getElementById('cart-items-list');
+            const totalElement = document.getElementById('cart-total-price');
+            let cart = JSON.parse(localStorage.getItem('levindra_cart')) || [];
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+                return;
+            }
+
+            let total = 0;
+            cartItemsContainer.innerHTML = cart.map((item, index) => {
+                total += item.price * (item.quantity || 1);
+                return `
+                    <div class="cart-item-row">
+                        <img src="${item.img}" width="70">
+                        <div class="item-info">
+                            <h4>${item.name}</h4>
+                            <p>Rs. ${item.price}</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button onclick="changeQty(${index}, -1)">-</button>
+                            <span>${item.quantity || 1}</span>
+                            <button onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                        <button onclick="removeItem(${index})" class="remove-btn">Remove</button>
+                    </div>
+                `;
+            }).join('');
+            
+            totalElement.innerText = total;
+        }
+
+        function changeQty(index, delta) {
+            let cart = JSON.parse(localStorage.getItem('levindra_cart')) || [];
+            if(!cart[index].quantity) cart[index].quantity = 1;
+            
+            cart[index].quantity += delta;
+            if(cart[index].quantity < 1) cart[index].quantity = 1;
+            
+            localStorage.setItem('levindra_cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('levindra_cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('levindra_cart', JSON.stringify(cart));
+            displayCart();
+        }
+    </script>
+</body>
+</html>
